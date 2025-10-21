@@ -11,10 +11,10 @@ export const DEFAULT_PLAYER: Combatant = {
 
 export const DEFAULT_ENEMY: Combatant = {
   max_hp: 11,
-  attack_damage: 1,
-  attack_speed: 1,
-  crit_chance: 0.1,
-  crit_mult: 1.5,
+  attack_damage: 3,
+  attack_speed: 0.82,
+  crit_chance: 0.01,
+  crit_mult: 1.05,
 };
 
 export const DEFAULT_SETTNGS: SimSettings = {

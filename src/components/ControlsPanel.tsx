@@ -41,13 +41,13 @@ export function ControlsPanel({ player, setPlayer, enemy, setEnemy, settings, se
               onChange={(v) => setPlayer({ ...player, crit_mult: v })} />
             <NumberField id="p-bc" label="Block Chance" value={player.block_chance ?? 0}
               onChange={(v) => setPlayer({ ...player, block_chance: v })} suffix="0..1" />
-            <NumberField id="p-pre" label="Prestige Multiplier" value={settings.prestigeMult}
-              onChange={(v) => setSettings({ ...settings, prestigeMult: v })} />
+            {/* <NumberField id="p-pre" label="Prestige Multiplier" value={settings.prestigeMult}
+              onChange={(v) => setSettings({ ...settings, prestigeMult: v })} /> */}
           </div>
         </CardContent>
       </Card>
 
-      <Card className="shadow-sm mt-4">
+      {/* <Card className="shadow-sm mt-4">
         <CardHeader className="py-4"><CardTitle>Enemy Base Stats (Wave 1)</CardTitle></CardHeader>
         <CardContent className="pt-0">
           <div className="grid grid-cols-2 gap-3">
@@ -63,22 +63,22 @@ export function ControlsPanel({ player, setPlayer, enemy, setEnemy, settings, se
               onChange={(v) => setEnemy({ ...enemy, crit_mult: v })} />
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
 
       <Card className="shadow-sm mt-4">
         <CardHeader className="py-4"><CardTitle>Wave & Trial Settings</CardTitle></CardHeader>
         <CardContent className="pt-0">
           <div className="grid grid-cols-2 gap-3">
-            <NumberField id="g-hp" label="Enemy HP Growth / wave" value={settings.growthHP}
+            {/* <NumberField id="g-hp" label="Enemy HP Growth / wave" value={settings.growthHP}
               onChange={(v) => setSettings({ ...settings, growthHP: v })} />
             <NumberField id="g-ad" label="Enemy AD Growth / wave" value={settings.growthAD}
               onChange={(v) => setSettings({ ...settings, growthAD: v })} />
             <NumberField id="m-pw" label="Monsters per Wave" value={settings.monstersPerWave}
-              onChange={(v) => setSettings({ ...settings, monstersPerWave: Math.max(1, Math.floor(v)) })} step={1} />
+              onChange={(v) => setSettings({ ...settings, monstersPerWave: Math.max(1, Math.floor(v)) })} step={1} /> */}
             <NumberField id="t-count" label="Trials" value={settings.trials}
               onChange={(v) => setSettings({ ...settings, trials: Math.max(1, Math.floor(v)) })} step={1} />
-            <NumberField id="t-max" label="Max Waves" value={settings.maxWaves}
-              onChange={(v) => setSettings({ ...settings, maxWaves: Math.max(1, Math.floor(v)) })} step={1} />
+            {/* <NumberField id="t-max" label="Max Waves" value={settings.maxWaves}
+              onChange={(v) => setSettings({ ...settings, maxWaves: Math.max(1, Math.floor(v)) })} step={1} /> */}
             <NumberField id="seed" label="Seed" value={settings.rngSeed}
               onChange={(v) => setSettings({ ...settings, rngSeed: Math.floor(v) })} step={1} />
           </div>
