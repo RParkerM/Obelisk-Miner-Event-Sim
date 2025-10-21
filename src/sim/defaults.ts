@@ -1,4 +1,4 @@
-import { Combatant, SimSettings } from "./types";
+import { Combatant, SimSettings, EnemyDebuffs } from "./types";
 
 export const DEFAULT_PLAYER: Combatant = {
   max_hp: 100,
@@ -29,3 +29,10 @@ export const DEFAULT_SETTNGS: SimSettings = {
   monstersPerWave: 5,
   trials: 10000,
 };
+
+export const DEFAULT_DEBUFFS: EnemyDebuffs = {
+  reducedAttackDamage: 0,
+  reducedAttackSpeed: 0,
+  reducedCritChance: 0,
+  reducedCritDamage: 0
+}

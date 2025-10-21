@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/Card";
 import { NumberField } from "./NumberField";
-import { Combatant } from "../sim/types";
+import { Combatant, EnemyDebuffs } from "../sim/types";
 
 type Settings = {
   prestigeMult: number;
@@ -20,9 +20,11 @@ type Props = {
   setEnemy: (c: Combatant) => void;
   settings: Settings;
   setSettings: (s: Settings) => void;
+  debuffs: EnemyDebuffs;
+  setDebuffs: (ed: EnemyDebuffs) => void;
 };
 
-export function ControlsPanel({ player, setPlayer, enemy, setEnemy, settings, setSettings }: Props) {
+export function ControlsPanel({ player, setPlayer, enemy, setEnemy, settings, setSettings, debuffs, setDebuffs }: Props) {
   return (
     <>
       <Card className="shadow-sm">
@@ -81,6 +83,22 @@ export function ControlsPanel({ player, setPlayer, enemy, setEnemy, settings, se
               onChange={(v) => setSettings({ ...settings, maxWaves: Math.max(1, Math.floor(v)) })} step={1} /> */}
             <NumberField id="seed" label="Seed" value={settings.rngSeed}
               onChange={(v) => setSettings({ ...settings, rngSeed: Math.floor(v) })} step={1} />
+          </div>
+        </CardContent>
+      </Card>
+
+      <Card className="shadow-sm mt-4">
+        <CardHeader className="py-4"><CardTitle>Enemy Debuffs</CardTitle></CardHeader>
+        <CardContent className="pt-0">
+          <div className="grid grid-cols-2 gap-3">
+            <NumberField id="e-rad" label="Reduced Attack Damage" value={debuffs.reducedAttackDamage}
+              onChange={(v) => setDebuffs({ ...debuffs, reducedAttackDamage: Math.floor(v) })} step={1} />
+            <NumberField id="e-rad" label="Reduced Attack Speed" value={debuffs.reducedAttackSpeed}
+              onChange={(v) => setDebuffs({ ...debuffs, reducedAttackSpeed: v })} step={1} />
+            <NumberField id="e-rad" label="Reduced Crit Chance" value={debuffs.reducedCritChance}
+              onChange={(v) => setDebuffs({ ...debuffs, reducedCritChance: v })} step={1} />
+            <NumberField id="e-rad" label="Reduced Crit Damage" value={debuffs.reducedCritDamage}
+              onChange={(v) => setDebuffs({ ...debuffs, reducedCritDamage: v })} step={1} />
           </div>
         </CardContent>
       </Card>

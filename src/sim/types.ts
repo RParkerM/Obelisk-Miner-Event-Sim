@@ -46,3 +46,10 @@ export type SimSettings = {
   monstersPerWave: number;
   trials: number;
 };
+
+export type EnemyDebuffs = {
+  reducedAttackDamage: number;
+  reducedAttackSpeed: number;
+  reducedCritChance: number;
+  reducedCritDamage: number;
+}

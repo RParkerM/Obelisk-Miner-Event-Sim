@@ -20,6 +20,8 @@ export default function WaveSimUI() {
             setEnemy={sim.setEnemy}
             settings={sim.settings}
             setSettings={sim.setSettings}
+            debuffs={sim.debuffs}
+            setDebuffs={sim.setDebuffs}
           />
         </div>
         <div className="lg:col-span-8 space-y-4">

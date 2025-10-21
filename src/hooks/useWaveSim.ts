@@ -1,12 +1,13 @@
 import { useMemo, useState } from "react";
 import { monteCarlo, simulateWaves } from "../sim/core";
-import { DEFAULT_PLAYER, DEFAULT_ENEMY, DEFAULT_SETTNGS } from "../sim/defaults";
-import { Combatant, SimSettings } from "../sim/types";
+import { DEFAULT_PLAYER, DEFAULT_ENEMY, DEFAULT_SETTNGS, DEFAULT_DEBUFFS } from "../sim/defaults";
+import { Combatant, SimSettings, EnemyDebuffs } from "../sim/types";
 
 export function useWaveSim() {
   const [player, setPlayer] = useState<Combatant>(DEFAULT_PLAYER);
   const [enemy, setEnemy]   = useState<Combatant>(DEFAULT_ENEMY);
   const [settings, setSettings] = useState<SimSettings>(DEFAULT_SETTNGS);
+  const [debuffs, setDebuffs] = useState<EnemyDebuffs>(DEFAULT_DEBUFFS);
 
   const [running, setRunning] = useState(false);
   const [trialRows, setTrialRows] = useState<any[]>([]);
@@ -27,6 +28,7 @@ export function useWaveSim() {
       maxWaves: Math.max(1, Math.floor(settings.maxWaves)),
       seed: settings.rngSeed,
       monstersPerWave: Math.max(1, Math.floor(settings.monstersPerWave)),
+      enemyDebuffs: debuffs
     });
     setTrialRows(rows);
 
@@ -42,6 +44,7 @@ export function useWaveSim() {
       maxWaves: Math.max(1, Math.floor(settings.maxWaves)),
       rngSeed: settings.rngSeed + 777,
       monstersPerWave: Math.max(1, Math.floor(settings.monstersPerWave)),
+      enemyDebuffs: debuffs,
     });
     setSingleRun(one);
     setRunning(false);
@@ -68,5 +71,5 @@ export function useWaveSim() {
     setTrialRows([]); setSingleRun(null);
   }
 
-  return { player, setPlayer, enemy, setEnemy, settings, setSettings, running, run, reset, trialRows, singleRun, summary };
+  return { player, setPlayer, enemy, setEnemy, settings, setSettings, running, run, reset, trialRows, singleRun, summary, debuffs, setDebuffs };
 }

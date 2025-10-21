@@ -1,4 +1,10 @@
-import { Combatant, FightResult, SimSummary, WaveRecord } from "./types";
+import {
+  Combatant,
+  EnemyDebuffs,
+  FightResult,
+  SimSummary,
+  WaveRecord,
+} from "./types";
 import { makeXorShift32 } from "./rng";
 
 export function simulateFight(
@@ -115,20 +121,28 @@ export function scaleEnemy(
   growthAS: number,
   growthCC: number,
   growthCD: number,
+  debuffs: EnemyDebuffs
 ): Combatant {
+  const {
+    reducedAttackDamage,
+    reducedAttackSpeed,
+    reducedCritChance,
+    reducedCritDamage,
+  } = debuffs;
   const extraHP = growthHP * (waveIndex - 1);
-  const extraAD = growthAD * (waveIndex - 1);
   const extraAS = growthAS * (waveIndex - 1);
   const extraCC = growthCC * (waveIndex - 1);
   const extraCD = growthCD * (waveIndex - 1);
+  const attack_damage = Math.floor((3 / 5) * waveIndex + 3 + 1e-9);
+
   // const hpScale = Math.pow(growthHP, waveIndex - 1);
   // const adScale = Math.pow(growthAD, waveIndex - 1);
   return {
     max_hp: base.max_hp + extraHP,
-    attack_damage: base.attack_damage + extraAD,
-    attack_speed: base.attack_speed + extraAS,
-    crit_chance: base.crit_chance + extraCC,
-    crit_mult: base.crit_mult + extraCD,
+    attack_damage: Math.max(1, attack_damage - reducedAttackDamage),
+    attack_speed: Math.max(0.01,base.attack_speed + extraAS - reducedAttackSpeed),
+    crit_chance: Math.max(0, base.crit_chance + extraCC - reducedCritChance),
+    crit_mult: Math.max(1, base.crit_mult + extraCD - reducedCritDamage),
   };
 }
 
@@ -144,6 +158,7 @@ export function simulateWaves(params: {
   maxWaves: number;
   rngSeed: number;
   monstersPerWave: number;
+  enemyDebuffs: EnemyDebuffs;
 }): SimSummary {
   const rng = makeXorShift32(params.rngSeed);
   // xorshift32 for deterministic RNG
@@ -159,6 +174,7 @@ export function simulateWaves(params: {
     growthCC,
     growthCD,
     monstersPerWave,
+    enemyDebuffs
   } = params;
 
   const player = {
@@ -173,7 +189,16 @@ export function simulateWaves(params: {
   let wavesCleared = 0;
 
   for (let wave = 1; wave <= maxWaves; wave++) {
-    const enemy = scaleEnemy(enemyBase, wave, growthHP, growthAD, growthAS, growthCC, growthCD);
+    const enemy = scaleEnemy(
+      enemyBase,
+      wave,
+      growthHP,
+      growthAD,
+      growthAS,
+      growthCC,
+      growthCD,
+      enemyDebuffs,
+    );
     const pForFight = { ...player, max_hp: currentHP };
     const result = simulateFight(
       pForFight,
@@ -225,8 +250,23 @@ export function monteCarlo(params: {
   maxWaves: number;
   seed: number;
   monstersPerWave: number;
+  enemyDebuffs: EnemyDebuffs;
 }) {
-  const {seed, trials, playerBase, enemyBase, prestigeMult, growthAD, growthHP, growthAS, growthCC, growthCD, maxWaves, monstersPerWave} = params;
+  const {
+    seed,
+    trials,
+    playerBase,
+    enemyBase,
+    prestigeMult,
+    growthAD,
+    growthHP,
+    growthAS,
+    growthCC,
+    growthCD,
+    maxWaves,
+    monstersPerWave,
+    enemyDebuffs,
+  } = params;
   const rows = [];
   let s = seed >>> 0;
   const nextSeed = () => (s = (s * 1664525 + 1013904223) >>> 0);
@@ -244,8 +284,13 @@ export function monteCarlo(params: {
       maxWaves,
       rngSeed: nextSeed(),
       monstersPerWave,
+      enemyDebuffs: enemyDebuffs
     });
-    rows.push({ trial: i + 1, waves_cleared: sim.wavesCleared, final_hp: sim.finalHP });
+    rows.push({
+      trial: i + 1,
+      waves_cleared: sim.wavesCleared,
+      final_hp: sim.finalHP,
+    });
   }
   return rows;
 }
