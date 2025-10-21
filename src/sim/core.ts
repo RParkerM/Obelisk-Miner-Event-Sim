@@ -112,19 +112,23 @@ export function scaleEnemy(
   waveIndex: number,
   growthHP: number,
   growthAD: number,
-  growthAS: number
+  growthAS: number,
+  growthCC: number,
+  growthCD: number,
 ): Combatant {
   const extraHP = growthHP * (waveIndex - 1);
   const extraAD = growthAD * (waveIndex - 1);
   const extraAS = growthAS * (waveIndex - 1);
+  const extraCC = growthCC * (waveIndex - 1);
+  const extraCD = growthCD * (waveIndex - 1);
   // const hpScale = Math.pow(growthHP, waveIndex - 1);
   // const adScale = Math.pow(growthAD, waveIndex - 1);
   return {
     max_hp: base.max_hp + extraHP,
     attack_damage: base.attack_damage + extraAD,
     attack_speed: base.attack_speed + extraAS,
-    crit_chance: base.crit_chance,
-    crit_mult: base.crit_mult,
+    crit_chance: base.crit_chance + extraCC,
+    crit_mult: base.crit_mult + extraCD,
   };
 }
 
@@ -135,6 +139,8 @@ export function simulateWaves(params: {
   growthHP: number;
   growthAS: number;
   growthAD: number;
+  growthCC: number;
+  growthCD: number;
   maxWaves: number;
   rngSeed: number;
   monstersPerWave: number;
@@ -150,6 +156,8 @@ export function simulateWaves(params: {
     growthHP,
     growthAS,
     growthAD,
+    growthCC,
+    growthCD,
     monstersPerWave,
   } = params;
 
@@ -165,7 +173,7 @@ export function simulateWaves(params: {
   let wavesCleared = 0;
 
   for (let wave = 1; wave <= maxWaves; wave++) {
-    const enemy = scaleEnemy(enemyBase, wave, growthHP, growthAD, growthAS);
+    const enemy = scaleEnemy(enemyBase, wave, growthHP, growthAD, growthAS, growthCC, growthCD);
     const pForFight = { ...player, max_hp: currentHP };
     const result = simulateFight(
       pForFight,
@@ -209,11 +217,13 @@ export function monteCarlo(params: {
   growthHP: number;
   growthAD: number;
   growthAS: number;
+  growthCC: number;
+  growthCD: number;
   maxWaves: number;
   seed: number;
   monstersPerWave: number;
 }) {
-  const {seed, trials, playerBase, enemyBase, prestigeMult, growthAD, growthHP, growthAS, maxWaves, monstersPerWave} = params;
+  const {seed, trials, playerBase, enemyBase, prestigeMult, growthAD, growthHP, growthAS, growthCC, growthCD, maxWaves, monstersPerWave} = params;
   const rows = [];
   let s = seed >>> 0;
   const nextSeed = () => (s = (s * 1664525 + 1013904223) >>> 0);
@@ -226,6 +236,8 @@ export function monteCarlo(params: {
       growthHP,
       growthAD,
       growthAS,
+      growthCC,
+      growthCD,
       maxWaves,
       rngSeed: nextSeed(),
       monstersPerWave,

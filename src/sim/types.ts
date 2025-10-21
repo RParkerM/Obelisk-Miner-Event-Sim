@@ -36,6 +36,8 @@ export type SimSettings = {
   growthHP: number;
   growthAD: number;
   growthAS: number;
+  growthCC: number;
+  growthCD: number;
   maxWaves: number;
   rngSeed: number;
   monstersPerWave: number;
