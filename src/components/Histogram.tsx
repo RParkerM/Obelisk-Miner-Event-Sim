@@ -6,7 +6,6 @@ type TrialRow = { trial: number; waves_cleared: number; final_hp: number };
 type Props = { rows: TrialRow[] };
 
 export function Histogram({ rows }: Props) {
-    console.log(rows);
   const data = useMemo(() => {
     const counts = new Map<number, number>();
     for (const r of rows) counts.set(r.waves_cleared, (counts.get(r.waves_cleared) ?? 0) + 1);

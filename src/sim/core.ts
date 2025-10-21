@@ -1,4 +1,4 @@
-import { Combatant, FightResult, SimSummary } from "./types";
+import { Combatant, FightResult, SimSummary, WaveRecord } from "./types";
 import { makeXorShift32 } from "./rng";
 
 export function simulateFight(
@@ -169,7 +169,7 @@ export function simulateWaves(params: {
 
   let currentHP = player.max_hp;
   let enemyPhaseFrac = 0; // carry swing phase across enemies AND waves
-  const records = [];
+  const records: WaveRecord[] = [];
   let wavesCleared = 0;
 
   for (let wave = 1; wave <= maxWaves; wave++) {
@@ -187,6 +187,9 @@ export function simulateWaves(params: {
       wave,
       enemy_hp: enemy.max_hp,
       enemy_ad: enemy.attack_damage,
+      enemy_as: enemy.attack_speed,
+      enemy_cc: enemy.crit_chance,
+      enemy_cd: enemy.crit_mult,
       fight_time_s: result.time,
       player_hp_before: currentHP,
       player_hp_after: result.win ? result.player_hp : 0,

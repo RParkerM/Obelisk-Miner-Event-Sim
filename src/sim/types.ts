@@ -19,6 +19,9 @@ export type WaveRecord = {
   wave: number;
   enemy_hp: number;
   enemy_ad: number;
+  enemy_as: number;
+  enemy_cc: number;
+  enemy_cd: number;
   fight_time_s: number;
   player_hp_before: number;
   player_hp_after: number;

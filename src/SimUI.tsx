@@ -8,7 +8,6 @@ import { WaveTable } from "./components/WaveTable";
 
 export default function WaveSimUI() {
   const sim = useWaveSim();
-  console.log(sim.trialRows);
   return (
     <div className="p-4 md:p-6 lg:p-8 space-y-6">
       <HeaderBar onRun={sim.run} onReset={sim.reset} running={sim.running} />

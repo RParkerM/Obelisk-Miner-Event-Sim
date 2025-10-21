@@ -23,7 +23,10 @@ export function WaveTable({ run }: Props) {
                   <tr className="text-left border-b">
                     <th className="py-2 pr-4">Wave</th>
                     <th className="py-2 pr-4">Enemy HP</th>
+                    <th className="py-2 pr-4">Enemy AS</th>
                     <th className="py-2 pr-4">Enemy AD</th>
+                    <th className="py-2 pr-4">Enemy CC</th>
+                    <th className="py-2 pr-4">Enemy CD</th>
                     <th className="py-2 pr-4">Fight Time (s)</th>
                     <th className="py-2 pr-4">Player HP Before</th>
                     <th className="py-2 pr-4">Player HP After</th>
@@ -35,7 +38,10 @@ export function WaveTable({ run }: Props) {
                     <tr key={r.wave} className="border-b last:border-0">
                       <td className="py-1 pr-4">{r.wave}</td>
                       <td className="py-1 pr-4">{r.enemy_hp.toFixed(1)}</td>
+                      <td className="py-1 pr-4">{r.enemy_as.toFixed(1)}</td>
                       <td className="py-1 pr-4">{r.enemy_ad.toFixed(1)}</td>
+                      <td className="py-1 pr-4">{r.enemy_cc.toFixed(3)}</td>
+                      <td className="py-1 pr-4">{r.enemy_cd.toFixed(3)}</td>
                       <td className="py-1 pr-4">{r.fight_time_s.toFixed(3)}</td>
                       <td className="py-1 pr-4">{r.player_hp_before.toFixed(1)}</td>
                       <td className="py-1 pr-4">{r.player_hp_after.toFixed(1)}</td>
