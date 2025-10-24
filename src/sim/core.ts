@@ -63,7 +63,8 @@ export function simulateFight(
     }
 
     const eps = 1e-12;
-    while (p_hp > 0 && e_hp > 0) {
+    // while (p_hp > 0 && e_hp > 0) {
+    while (e_hp > 0) {
       // next event: player swing or active enemy swing
       const next_t = Math.min(p_next, t + e_next);
       const dt = next_t - t;
@@ -106,7 +107,7 @@ export function simulateFight(
 
   return {
     win: p_hp > 0,
-    player_hp: Math.max(0, p_hp),
+    player_hp: p_hp,
     time: t,
     events,
     enemyPhaseFrac: enemyPhase,
@@ -217,7 +218,7 @@ export function simulateWaves(params: {
       enemy_cd: enemy.crit_mult,
       fight_time_s: result.time,
       player_hp_before: currentHP,
-      player_hp_after: result.win ? result.player_hp : 0,
+      player_hp_after: result.player_hp,
       won: result.win,
     });
 
@@ -229,8 +230,8 @@ export function simulateWaves(params: {
       currentHP = result.player_hp;
       if (currentHP <= 0) break;
     } else {
-      currentHP = 0;
-      break;
+    currentHP = result.player_hp;
+  break;
     }
   }
   return { wavesCleared, finalHP: currentHP, records };
